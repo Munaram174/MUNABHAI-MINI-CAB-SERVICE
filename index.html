@@ -14,11 +14,11 @@ h2{text-align:center;margin:5px 0 12px}
 label{font-size:12px;font-weight:bold;display:block;margin:7px 0 3px}
 input,select,textarea{width:100%;padding:9px;border:1px solid #bbb;border-radius:6px;font-size:14px}
 textarea{min-height:55px}
-button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-height:78px;padding:14px 18px;font-size:24px;line-height:1.15;cursor:pointer}
+button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-height:70px;padding:14px 18px;font-size:22px;line-height:1.15;cursor:pointer}
 .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-.generate{background:#216fc1;color:#fff}.history,.print,.share{background:#e7eff8;color:#164f7d}
-@media(max-width:700px){button{font-size:18px;min-height:60px}.action-grid{gap:10px}}
-.live{margin-top:12px;background:#e9f8e9;border:2px solid #8bc48b;border-radius:8px;text-align:center;padding:12px;font-size:25px;font-weight:bold;color:#123957}
+.generate{background:#216fc1;color:#fff}.print{background:#e7eff8;color:#164f7d}
+@media(max-width:700px){button{font-size:18px;min-height:55px}.action-grid{gap:10px}}
+.live{margin-top:12px;background:#e9f8e9;border:2px solid #8bc48b;border-radius:8px;text-align:center;padding:12px;font-size:24px;font-weight:bold;color:#123957}
 
 .receipt{border:2px solid #222;background:#fff;color:#163b5a}
 .head{
@@ -76,6 +76,12 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
   margin-top:3px;
 }
 .title{text-align:center;color:#347aa8;font-size:18px;font-weight:bold;padding:6px 6px;border-bottom:1px solid #222}
+.customer{padding:5px 7px;border-bottom:1px solid #222;font-size:14px;font-weight:bold;line-height:1.2}
+.customer div{padding:3px 0}
+.loc{display:grid;grid-template-columns:27% 73%;border-bottom:1px solid #222;font-size:13px;line-height:1.2}
+.loc .lab{padding:6px 7px;font-weight:bold}.loc .val{border-left:1px dotted #333}
+.loc .val div{padding:5px 6px;border-bottom:1px dotted #555;font-weight:bold;min-height:26px}
+.loc .val div:last-child{border-bottom:none}
 .details{padding:6px 8px;border-bottom:1px solid #222;font-size:13px;line-height:1.35}
 .drow,.frow{display:grid;grid-template-columns:55% 45%;padding:3px 5px;min-height:0}
 .drow span:last-child,.frow span:last-child{text-align:right;font-weight:bold}
@@ -99,6 +105,7 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
   .service{font-size:14px;margin:6px 0 4px;letter-spacing:.2px}
   .meta{font-size:10px;line-height:1.2}
   .title{font-size:14px;padding:4px}
+  .customer,.loc{font-size:11px}
   .details,.fares,.pay{font-size:11px}
   .drow,.frow{padding:2px 4px}
   .total{font-size:18px;padding:6px 5px}
@@ -112,8 +119,9 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 
 <div class="panel">
 <h2>Mini Cab Receipt Control Panel</h2>
+
 <div class="panel" style="margin-bottom:10px;background:#fff">
-<h3 style="margin:0 0 8px;font-size:15px">Header Settings</h3>
+<h3 style="margin:0 0 8px;font-size:15px">Header & Service Settings</h3>
 <div class="grid">
 <div><label>Service Name</label><input id="headerService" value="MUNABHAI MINI CAB SERVICE"></div>
 <div><label>Phone</label><input id="headerPhone" value="9010903394"></div>
@@ -125,22 +133,31 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 </div>
 
 <div class="grid">
-<div><label>Payment QR Image (Optional)</label><input id="qrUpload" type="file" accept="image/*"></div>
-<div><label>Authority Signature (Optional)</label><input id="sigUpload" type="file" accept="image/*"></div>
+<div><label>Payment QR Upload</label><input id="qrUpload" type="file" accept="image/*"></div>
+<div><label>Authority Signature Upload</label><input id="sigUpload" type="file" accept="image/*"></div>
 </div>
 
 <div class="grid">
-<div><label>Invoice No.</label><input id="invoice" value="2"></div>
-<div><label>Date</label><input id="date" type="text" value="20 Aug 2026"></div>
+<div><label>Invoice No.</label><input id="invoice" value="1"></div>
+<div><label>Bill Date (Auto / Custom)</label><input id="date" type="text"></div>
+<div><label>Customer Name</label><input id="customer" value="" placeholder="Optional"></div>
+<div><label>Customer Number</label><input id="phone" value="" placeholder="Optional"></div>
+<div><label>Driver Name</label><input id="driver" value="" placeholder="Optional"></div>
+<div><label>Vehicle Number</label><input id="vehicle" value="OD 33AN1760"></div>
 <div><label>Vehicle Type</label><input id="vehicleType" value="Wagner VXI"></div>
 <div><label>Payment Type</label><select id="payment"><option>Cash</option><option>UPI</option><option>Card</option></select></div>
 </div>
 
-<div class="grid">
+<label>Pickup Location</label>
+<textarea id="pickup" placeholder="Optional"></textarea>
+<label>Drop Location</label>
+<input id="drop" value="" placeholder="Optional">
+
+<div class="grid" style="margin-top:8px">
 <div><label>From Date / Time</label><input id="from" type="datetime-local"></div>
 <div><label>To Date / Time</label><input id="to" type="datetime-local"></div>
 <div><label>Total Duration (Hrs - Auto)</label><input id="totalHours" type="text" value="0.00" readonly style="background:#eef;font-weight:bold"></div>
-<div><label>Distance (KM)</label><input id="km" type="number" min="0" step="0.1" value="60" placeholder="Enter KM"></div>
+<div><label>Distance (KM)</label><input id="km" type="number" min="0" step="0.1" value="0" placeholder="Enter KM"></div>
 <div><label>Per KM Charge (₹)</label><input id="rate" type="number" min="0" step="0.01" value="14.00"></div>
 <div><label>Base Fare (₹)</label><input id="base" type="number" min="0" value="0.00"></div>
 <div><label>Day Charges / Hour (₹)</label><input id="hourRate" type="number" min="0" value="0.00"></div>
@@ -150,15 +167,15 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 <div><label>Discount (₹)</label><input id="discount" type="number" min="0" value="0.00"></div>
 </div>
 
-<div class="live">TOTAL AMOUNT: ₹ <span id="liveTotal">840.00</span></div>
+<div class="live">TOTAL AMOUNT: ₹ <span id="liveTotal">0.00</span></div>
 
 <div class="action-grid">
-<button type="button" class="generate" id="generate">Update Receipt</button>
+<button type="button" class="generate" id="generate">Generate Receipt</button>
 <button type="button" class="print" id="printPdf">Print / Save PDF</button>
 </div>
 </div>
 
-<!-- EXACT RECEIPT DESIGN -->
+<!-- EXACT ORIGINAL RECEIPT LAYOUT -->
 <div class="receipt" id="receipt">
 <div class="head">
   <div class="head-logo">
@@ -166,8 +183,8 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
   </div>
   <div class="info">
     <div class="info-top">
-      <span>Invoice No.: <span id="r_invoice">2</span></span>
-      <span>DATE : <span id="r_date">20 Aug 2026</span></span>
+      <span>Invoice No.: <span id="r_invoice">1</span></span>
+      <span>DATE : <span id="r_date"></span></span>
     </div>
     <div class="service" id="r_service">MUNABHAI MINI CAB SERVICE</div>
     <div class="meta">
@@ -181,18 +198,37 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 
 <div class="title">Here's your receipt for your round trip ,</div>
 
+<div class="customer">
+  <div>Customer Name : <span id="r_customer"></span></div>
+  <div>Customer Number : <span id="r_phone_cust"></span></div>
+</div>
+
+<div class="loc">
+  <div class="lab">
+    <div>Pickup</div>
+    <div>location</div>
+    <div style="margin-top:14px">Drop location</div>
+  </div>
+  <div class="val">
+    <div id="r_pickup"></div>
+    <div id="r_drop"></div>
+  </div>
+</div>
+
 <div class="details">
+  <div class="drow"><span>Driver Name :</span><span id="r_driver"></span></div>
+  <div class="drow"><span>Vehicle Number :</span><span id="r_vehicle">OD 33AN1760</span></div>
   <div class="drow"><span>Vehicle type</span><span id="r_vtype">Wagner VXI</span></div>
-  <div class="drow"><span>From Date :</span><span id="r_from">-</span></div>
-  <div class="drow"><span>To Date :</span><span id="r_to">-</span></div>
+  <div class="drow"><span>From Date :</span><span id="r_from"></span></div>
+  <div class="drow"><span>To Date :</span><span id="r_to"></span></div>
   <div class="drow"><span>Hrs</span><span id="r_hrs">0.00</span></div>
 </div>
 
 <div class="fares">
-  <div class="frow"><span>Distance (KM)</span><span>Km : <span id="r_km">60</span></span></div>
+  <div class="frow"><span>Distance (KM)</span><span>Km : <span id="r_km">0</span></span></div>
   <div class="frow"><span>Base fare</span><span>₹ : <span id="r_base">0.00</span></span></div>
   <div class="frow"><span>Per KM charge</span><span>₹ : <span id="r_rate">14.00</span></span></div>
-  <div class="frow"><span>Trip charges</span><span>₹ : <span id="r_trip">840.00</span></span></div>
+  <div class="frow"><span>Trip charges</span><span>₹ : <span id="r_trip">0.00</span></span></div>
   <div class="frow"><span>Day charges ( Hrs)</span><span>₹ : <span id="r_day">0.00</span></span></div>
   <div class="frow"><span>Night charges</span><span>₹ : <span id="r_night">0.00</span></span></div>
   <div class="frow"><span>Toll tax</span><span>₹ : <span id="r_toll">0.00</span></span></div>
@@ -207,7 +243,7 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 
 <div class="total">
   <span>Total Amount</span>
-  <span>₹ : <span id="r_total">840.00</span></span>
+  <span>₹ : <span id="r_total">0.00</span></span>
 </div>
 
 <div class="note">
@@ -217,13 +253,15 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 <div class="footer">
   <div class="qrbox" id="r_qr">
     <div>PAYMENT QR</div>
-    <div id="r_qr_amt" style="font-size:15px;margin-top:2px">₹840.00</div>
+    <div id="r_qr_amt" style="font-size:15px;margin-top:2px">₹0.00</div>
   </div>
   <div class="sig">
     <div id="r_sig_container">
-      <svg width="140" height="40" viewBox="0 0 160 50">
-        <path d="M10,40 Q30,5 50,35 T90,20 T130,30 T150,15" fill="none" stroke="#153b5b" stroke-width="2.5"/>
-        <path d="M40,25 Q70,45 110,25" fill="none" stroke="#153b5b" stroke-width="1.8"/>
+      <div style="font-family:serif;font-size:11px;color:#333;margin-bottom:-2px">M</div>
+      <div style="font-size:8px;letter-spacing:.5px;color:#555;margin-bottom:2px">MUNABHAI MINI</div>
+      <svg width="120" height="30" viewBox="0 0 160 40">
+        <path d="M10,30 Q35,5 55,25 T95,15 T135,22 T155,10" fill="none" stroke="#153b5b" stroke-width="2.2"/>
+        <path d="M35,20 Q65,35 105,18" fill="none" stroke="#153b5b" stroke-width="1.5"/>
       </svg>
     </div>
     <div class="sigline"></div>
@@ -239,8 +277,16 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 </div>
 
 <script>
+function getFormattedToday() {
+  const d = new Date();
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+document.getElementById('date').value = getFormattedToday();
+
 function formatDateTime(dtStr) {
-  if(!dtStr) return '-';
+  if(!dtStr) return '';
   const d = new Date(dtStr);
   if(isNaN(d.getTime())) return dtStr;
   const day = d.getDate();
@@ -289,7 +335,7 @@ function calculateAll() {
   return { hours, km, rate, base, hourRate, tripCharge, dayCharge, night, toll, parking, discount, total };
 }
 
-const inputs = ['from', 'to', 'km', 'rate', 'base', 'hourRate', 'night', 'toll', 'parking', 'discount', 'headerService', 'headerPhone', 'headerEmail', 'headerAddress', 'headerPin', 'customNote', 'invoice', 'date', 'vehicleType', 'payment'];
+const inputs = ['from', 'to', 'km', 'rate', 'base', 'hourRate', 'night', 'toll', 'parking', 'discount', 'headerService', 'headerPhone', 'headerEmail', 'headerAddress', 'headerPin', 'customNote', 'invoice', 'date', 'customer', 'phone', 'driver', 'vehicle', 'vehicleType', 'pickup', 'drop', 'payment'];
 inputs.forEach(id => {
   const el = document.getElementById(id);
   if(el) {
@@ -310,8 +356,15 @@ function updateReceipt() {
 
   document.getElementById('r_invoice').innerText = document.getElementById('invoice').value;
   document.getElementById('r_date').innerText = document.getElementById('date').value;
+  document.getElementById('r_customer').innerText = document.getElementById('customer').value;
+  document.getElementById('r_phone_cust').innerText = document.getElementById('phone').value;
+  document.getElementById('r_driver').innerText = document.getElementById('driver').value;
+  document.getElementById('r_vehicle').innerText = document.getElementById('vehicle').value;
   document.getElementById('r_vtype').innerText = document.getElementById('vehicleType').value;
   document.getElementById('r_payment').innerText = document.getElementById('payment').value;
+
+  document.getElementById('r_pickup').innerText = document.getElementById('pickup').value;
+  document.getElementById('r_drop').innerText = document.getElementById('drop').value;
 
   document.getElementById('r_from').innerText = formatDateTime(document.getElementById('from').value);
   document.getElementById('r_to').innerText = formatDateTime(document.getElementById('to').value);
