@@ -11,13 +11,14 @@ body{margin:0;background:#eef1f4;font-family:Arial,sans-serif}
 .panel{padding:12px;border:1px solid #ccc;border-radius:8px;margin-bottom:12px;background:#fafafa}
 h2{text-align:center;margin:5px 0 12px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 label{font-size:12px;font-weight:bold;display:block;margin:7px 0 3px}
 input,select,textarea{width:100%;padding:9px;border:1px solid #bbb;border-radius:6px;font-size:14px}
 textarea{min-height:55px}
 button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-height:70px;padding:14px 18px;font-size:22px;line-height:1.15;cursor:pointer}
 .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
 .generate{background:#216fc1;color:#fff}.print{background:#e7eff8;color:#164f7d}
-@media(max-width:700px){button{font-size:18px;min-height:55px}.action-grid{gap:10px}}
+@media(max-width:700px){button{font-size:18px;min-height:55px}.action-grid{gap:10px}.grid-3{grid-template-columns:1fr}}
 .live{margin-top:12px;background:#e9f8e9;border:2px solid #8bc48b;border-radius:8px;text-align:center;padding:12px;font-size:24px;font-weight:bold;color:#123957}
 
 .receipt{border:2px solid #222;background:#fff;color:#163b5a}
@@ -132,13 +133,14 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 </div>
 </div>
 
-<div class="grid">
+<div class="grid-3">
+<div><label>Upload Logo</label><input id="logoUpload" type="file" accept="image/*"></div>
 <div><label>Payment QR Upload</label><input id="qrUpload" type="file" accept="image/*"></div>
-<div><label>Authority Signature Upload</label><input id="sigUpload" type="file" accept="image/*"></div>
+<div><label>Authority Signature</label><input id="sigUpload" type="file" accept="image/*"></div>
 </div>
 
 <div class="grid">
-<div><label>Invoice No.</label><input id="invoice" value="1"></div>
+<div><label>Invoice No.</label><input id="invoice" value="12"></div>
 <div><label>Bill Date (Auto / Custom)</label><input id="date" type="text"></div>
 <div><label>Customer Name</label><input id="customer" value="" placeholder="Optional"></div>
 <div><label>Customer Number</label><input id="phone" value="" placeholder="Optional"></div>
@@ -175,15 +177,15 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 </div>
 </div>
 
-<!-- EXACT ORIGINAL RECEIPT LAYOUT -->
+<!-- RECEIPT -->
 <div class="receipt" id="receipt">
 <div class="head">
-  <div class="head-logo">
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkkAAAHRCAYAAAB+XS2HAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAEAAElEQVR42rT9Z6xl2XkeDD47nBxvzrdu5a7q7iqymVtqtsSgz5QlUqSyIUiggu0/hICxYYU/sjUQZgz/kT1jwIAB2ZBtwKYEjcagJFJiaJIdqrqLnStX3ZzDOffktMP82Getu866K51qTzUK1XXrhL3XXuF5n/d5n9eq1WphEAQIwxAAYFkWbNsGAIRhOPBz9k/+30X/xv8iPwvDEJZl0d+q15Nr4T+Dfx9/reQ3e28AYNv2wHUGQaC8Zva17HeKXit6L3t9onHkP4cfQ9X4WJYFz/PofbH3Rq6RvT9+bMj7giAQjgN7LaK/y65LNFayz3Qch34/e7/kvY7jCOccuTcyP0TjJLpe0c/JZ4nmJfu57M/Y75HNB/bz+GdDvi8IglP/zn6maP6ZrD92vouui/yW/Tv7ftH3qOYlP9b8/sLfk+7zReNOPNcHz+32Z/x3y9aX7Lx4a+JHa8wDOH7vnBvVD03ft/SPV92LyPrlFyL4zgD18u+Rzan+D3TcRx6X+Q7yPvJGIvmPL9viL7T9/2Bn7HP1vf9U/sNf/aw3y8aE/IZqv2Hn0/sGJD9R7Y/s/NfNL78+uD3Dv76ROPIjy95PzvH2b+L5rBsvYjmDbvm+DXDz3vR/kCuQ7Q/i8558hr2fez+Tv4uGkvRow==" alt="Logo">
+  <div class="head-logo" id="r_logo_container">
+    <div style="font-size:18px;font-weight:bold;color:#183f5f;border:2px dashed #347aa8;padding:15px;text-align:center;border-radius:6px">LOGO</div>
   </div>
   <div class="info">
     <div class="info-top">
-      <span>Invoice No.: <span id="r_invoice">1</span></span>
+      <span>Invoice No.: <span id="r_invoice">12</span></span>
       <span>DATE : <span id="r_date"></span></span>
     </div>
     <div class="service" id="r_service">MUNABHAI MINI CAB SERVICE</div>
@@ -393,6 +395,19 @@ document.getElementById('printPdf').addEventListener('click', () => {
   window.print();
 });
 
+// Logo Upload Handler
+document.getElementById('logoUpload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      document.getElementById('r_logo_container').innerHTML = `<img src="${evt.target.result}" alt="Logo">`;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// QR Upload Handler
 document.getElementById('qrUpload').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (file) {
@@ -404,6 +419,7 @@ document.getElementById('qrUpload').addEventListener('change', function(e) {
   }
 });
 
+// Signature Upload Handler
 document.getElementById('sigUpload').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (file) {
@@ -420,3 +436,4 @@ updateReceipt();
 </script>
 </body>
 </html>
+
