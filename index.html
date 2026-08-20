@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="theme-color" content="#1769c2"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mini Cab Service Receipt</title>
+<title>Online Mini Cab Service</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#eef1f4;font-family:Arial,sans-serif}
@@ -13,17 +13,18 @@ h2{text-align:center;margin:5px 0 12px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 label{font-size:12px;font-weight:bold;display:block;margin:7px 0 3px}
 input,select,textarea{width:100%;padding:9px;border:1px solid #bbb;border-radius:6px;font-size:14px}
-button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-height:70px;padding:14px 18px;font-size:22px;line-height:1.15;cursor:pointer}
-.action-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:14px;margin-top:14px}
+textarea{min-height:55px}
+button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-height:78px;padding:14px 18px;font-size:26px;line-height:1.15;cursor:pointer}
+.action-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:18px;margin-top:18px}
 .generate{background:#216fc1;color:#fff}.history,.print,.share{background:#e7eff8;color:#164f7d}
-@media(max-width:700px){button{font-size:18px;min-height:55px}.action-grid{gap:10px}}
-.live{margin-top:12px;background:#e9f8e9;border:2px solid #8bc48b;border-radius:8px;text-align:center;padding:12px;font-size:24px;font-weight:bold;color:#136213}
+@media(max-width:700px){button{font-size:20px;min-height:68px}.action-grid{gap:10px}}
+.live{margin-top:12px;background:#e9f8e9;border:2px solid #8bc48b;border-radius:8px;text-align:center;padding:12px;font-size:25px;font-weight:bold}
 
 .receipt{border:2px solid #222;background:#fff;color:#163b5a}
 .head{
   display:grid;
   grid-template-columns:39% 61%;
-  min-height:140px;
+  min-height:175px;
   border-bottom:2px solid #183f5f;
   background:linear-gradient(135deg,#fff 0%,#f7f9fb 100%);
   overflow:hidden;
@@ -36,59 +37,69 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 }
 .head-logo img{
   width:100%;
-  max-width:300px;
-  max-height:130px;
+  max-width:330px;
+  max-height:165px;
   object-fit:contain;
   display:block;
 }
 .info{
   padding:14px 18px 8px 6px;
   text-align:right;
+  overflow:hidden;
 }
 .info-top{
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:10px;
-  font-size:15px;
+  font-size:17px;
+  line-height:1.15;
   font-weight:700;
   color:#123957;
 }
 .service{
-  font-size:20px;
+  font-size:24px;
   color:#123e61;
   font-weight:900;
   font-style:italic;
-  margin:8px 0 6px;
+  margin:12px 0 10px;
+  white-space:nowrap;
+  line-height:1;
+  letter-spacing:.5px;
   text-align:right;
 }
 .meta{
-  font-size:13px;
+  font-size:16px;
   font-weight:600;
   line-height:1.35;
   color:#153b5b;
+  margin-top:3px;
 }
-.title{text-align:center;color:#347aa8;font-size:17px;font-weight:bold;padding:6px;border-bottom:1px solid #222;background:#f0f6fa}
-.details{padding:4px 6px;border-bottom:1px solid #222;font-size:13px}
-.drow,.frow{display:grid;grid-template-columns:55% 45%;padding:4px 6px}
+.title{text-align:center;color:#347aa8;font-size:18px;font-weight:bold;padding:5px 6px;border-bottom:1px solid #222}
+.details{padding:4px 6px;border-bottom:1px solid #222;font-size:13px;line-height:1.2}
+.drow,.frow{display:grid;grid-template-columns:55% 45%;padding:3px 5px;min-height:0}
 .drow span:last-child,.frow span:last-child{text-align:right;font-weight:bold}
-.fares{font-size:13px;border-bottom:1px solid #222}
-.frow{border-bottom:1px dotted #aaa}
-.pay{padding:6px 8px;border-bottom:1px solid #222;font-size:13px;font-weight:bold}
-.total{display:flex;justify-content:space-between;padding:10px 8px;font-size:20px;font-weight:bold;color:#0a4d78;background:#f5faff}
-.footer{display:flex;justify-content:space-between;align-items:flex-end;padding:8px;gap:8px}
-.qrbox{width:90px;height:90px;border:2px solid #111;display:flex;align-items:center;justify-content:center;text-align:center;color:#111;font-weight:bold;font-size:12px}
-.sig{width:160px;text-align:center;font-size:11px}.sig img{max-width:140px!important;max-height:45px!important}.sigline{border-bottom:1px solid #222;margin-bottom:3px;padding-top:20px}
-.terms{border-top:1px solid #222;padding:4px 6px;font-size:11px;color:#555}
-
+.fares{font-size:13px;border-bottom:1px solid #222;line-height:1.1}
+.frow{border-bottom:1px dotted #777}
+.pay{padding:4px 5px;border-bottom:1px solid #222;font-size:13px;font-weight:bold}
+.total{display:flex;justify-content:space-between;padding:7px 6px;font-size:22px;font-weight:bold;color:#0a4d78}
+.note{padding:3px 5px;font-size:12px;font-weight:bold}
+.footer{display:flex;justify-content:space-between;align-items:flex-end;padding:5px 8px 8px;gap:8px}
+.qrbox{width:110px;height:110px;border:2px solid #111;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#111;font-weight:bold;font-size:13px;line-height:1.2}
+.sig{width:170px;text-align:center;font-size:11px}.sig img{max-width:150px!important;max-height:50px!important}.sigline{border-bottom:1px solid #222;margin-bottom:3px;padding-top:25px}
+.terms{border-top:1px solid #222;padding:3px 5px;font-size:11px}
 @media(max-width:700px){
-  .head{grid-template-columns:36% 64%;min-height:110px}
-  .info-top{font-size:11px}
-  .service{font-size:14px;margin:4px 0}
-  .meta{font-size:10px}
-  .title{font-size:14px}
+  .head{grid-template-columns:36% 64%;min-height:118px}
+  .head-logo img{max-height:108px}
+  .info{padding:7px 7px 5px 2px}
+  .info-top{font-size:11px;gap:3px}
+  .service{font-size:14px;margin:6px 0 5px;letter-spacing:.2px}
+  .meta{font-size:10px;line-height:1.2}
+  .title{font-size:14px;padding:3px}
   .details,.fares,.pay{font-size:11px}
-  .total{font-size:16px}
+  .drow,.frow{padding:2px 4px}
+  .total{font-size:18px;padding:6px 5px}
+  .footer{padding:5px}.sig{width:48%;font-size:10px}.sig img{max-width:125px!important;max-height:42px!important}.qrbox{width:95px;height:95px;font-size:11px}
 }
 @media print{@page{size:A4 portrait;margin:7mm}body{background:white}.panel{display:none}.app{padding:0}}
 </style>
@@ -97,34 +108,34 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 <div class="app">
 
 <div class="panel">
-<h2>Mini Cab Receipt Generator</h2>
-
+<h2>Mini Cab Receipt</h2>
 <div class="panel" style="margin-bottom:10px;background:#fff">
-<h3 style="margin:0 0 8px;font-size:15px">Header Settings</h3>
+<h3 style="margin:0 0 8px">Header Settings (Edit)</h3>
 <div class="grid">
 <div><label>Service Name</label><input id="headerService" value="MUNABHAI MINI CAB SERVICE"></div>
 <div><label>Phone</label><input id="headerPhone" value="9010903394"></div>
 <div><label>Email</label><input id="headerEmail" value="munnatiria@gmail.com"></div>
 <div><label>Address</label><input id="headerAddress" value="Ahalya Nagar, Patia, Bhubaneswar, Odisha"></div>
+<div><label>PIN Code</label><input id="headerPin" value="751024"></div>
 </div>
 </div>
 
 <div class="grid">
-<div><label>Payment QR Code</label><input id="qrUpload" type="file" accept="image/*"></div>
-<div><label>Authority Signature</label><input id="sigUpload" type="file" accept="image/*"></div>
+<div><label>Payment QR Code (Image)</label><input id="qrUpload" type="file" accept="image/*"></div>
+<div><label>Authority Signature (Image)</label><input id="sigUpload" type="file" accept="image/*"></div>
 </div>
 
 <div class="grid">
 <div><label>Invoice No.</label><input id="invoice" value="2"></div>
-<div><label>Bill Date</label><input id="date" type="date"></div>
+<div><label>Date</label><input id="date" type="date"></div>
 <div><label>Payment Type</label><select id="payment"><option>Cash</option><option>UPI</option><option>Card</option></select></div>
-<div><label>Total Hours (Auto Calculate)</label><input id="totalHours" type="text" value="0.00 hrs" readonly style="background:#eef;font-weight:bold"></div>
+<div><label>Total Hours (Auto)</label><input id="totalHours" type="text" value="0.00" readonly style="background:#eef;font-weight:bold"></div>
 </div>
 
 <div class="grid" style="margin-top:6px">
 <div><label>From Date/Time</label><input id="from" type="datetime-local"></div>
 <div><label>To Date/Time</label><input id="to" type="datetime-local"></div>
-<div><label>Distance (KM)</label><input id="km" type="number" min="0" step="0.1" value="0" placeholder="Enter KM"></div>
+<div><label>Distance (KM)</label><input id="km" type="number" min="0" step="0.1" value="60" placeholder="Enter KM"></div>
 <div><label>Per KM Charge (₹)</label><input id="rate" type="number" min="0" step="0.01" value="14"></div>
 <div><label>Day Rate / Hour (₹)</label><input id="hourRate" type="number" min="0" value="120"></div>
 <div><label>Base Fare (₹)</label><input id="base" type="number" min="0" value="0"></div>
@@ -134,79 +145,110 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 <div><label>Discount (₹)</label><input id="discount" type="number" min="0" value="0"></div>
 </div>
 
-<div class="live">TOTAL AMOUNT: ₹ <span id="liveTotal">0.00</span></div>
-
+<div class="live">TOTAL AMOUNT: ₹ <span id="liveTotal">840.00</span></div>
 <div class="action-grid">
-<button type="button" class="generate" id="generate">Generate Receipt</button>
+<button type="button" class="generate" id="generate">Generate</button>
 <button type="button" class="print" id="printPdf">Print / Save PDF</button>
 </div>
+<p style="font-size:12px;color:#555;margin-top:8px">From ଓ To Date/Time ଦେଲେ ସାଙ୍ଗେ ସାଙ୍ଗେ Hours ଓ Day Charge ଆପେ ଆପେ Total ରେ add ହୋଇଯିବ।</p>
 </div>
 
-<!-- RECEIPT SECTION -->
+<!-- EXACT ORIGINAL DESIGN RECEIPT -->
 <div class="receipt" id="receipt">
 <div class="head">
   <div class="head-logo">
-    <img id="logoImg" src="https://via.placeholder.com/260x100?text=CAB+SERVICE" alt="Logo">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkkAAHRCAYAAAB+XS2HAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAEAAElEQVR42rT9Z6xl2XkeDD47nBxvzrdu5a7q7iqymVtqtsSgz5QlUqSyIUiggu0/hICxYYU/sjUQZgz/kT1jwIAB2ZBtwKYEjcagJFJiaJIdqrqLnStX3ZzDOffktMP82Getu866K51qTzUK1XXrhL3XXuF5n/d5n9eq1WphEAQIwxAAYFkWbNsGAIRhOPBz9k/+30X/xv8iPwvDEJZl0d+q15Nr4T+Dfx9/reQ3e28AYNv2wHUGQaC8Zva17HeKXit6L3t9onHkP4cfQ9X4WJYFz/PofbH3Rq6RvT9+bMj7giAQjgN7LaK/y65LNFayz3Qch34/e7/kvY7jCOccuTcyP0TjJLpe0c/JZ4nmJfu57M/Y75HNB/bz+GdDvi8IglP/zn6maP6ZrD92vouui/yW/Tv7ftH3qOYlP9b8/sLfk+7zReNOPNc+..." alt="Logo">
   </div>
   <div class="info">
     <div class="info-top">
-      <span>INV: #<span id="r_invoice">2</span></span>
-      <span id="r_date"></span>
+      <span>Invoice No.: <span id="r_invoice">2</span></span>
+      <span>DATE : <span id="r_date">20 Aug 2026</span></span>
     </div>
     <div class="service" id="r_service">MUNABHAI MINI CAB SERVICE</div>
     <div class="meta">
-      <div id="r_address">Ahalya Nagar, Patia, Bhubaneswar</div>
-      <div>Mob: <span id="r_phone">9010903394</span></div>
-      <div>Email: <span id="r_email">munnatiria@gmail.com</span></div>
+      <div>Ph-<span id="r_phone">9010903394</span></div>
+      <div id="r_email">munnatiria@gmail.com</div>
+      <div><span id="r_address">Ahalya Nagar, Patia, Bhubaneswar, Odisha</span></div>
+      <div id="r_pin">751024</div>
     </div>
   </div>
 </div>
 
-<div class="title">DUTY SLIP & TAX INVOICE</div>
+<div class="title">Here's your receipt for your round trip ,</div>
 
 <div class="details">
-  <div class="drow"><span>Journey Start (From):</span><span id="r_from">-</span></div>
-  <div class="drow"><span>Journey End (To):</span><span id="r_to">-</span></div>
-  <div class="drow"><span>Total Duration (Hours):</span><span id="r_hours">0.00 hrs</span></div>
-  <div class="drow"><span>Total Distance:</span><span id="r_km">0.0 KM</span></div>
+  <div class="drow"><span>From Date :</span><span id="r_from">-</span></div>
+  <div class="drow"><span>To Date :</span><span id="r_to">-</span></div>
+  <div class="drow"><span>Hrs</span><span id="r_hours">0.00</span></div>
 </div>
 
 <div class="fares">
-  <div class="frow"><span>Base Fare</span><span>₹ <span id="r_base">0.00</span></span></div>
-  <div class="frow"><span>KM Fare (<span id="r_km_count">0</span> KM @ ₹<span id="r_rate_per_km">14</span>)</span><span>₹ <span id="r_km_charge">0.00</span></span></div>
-  <div class="frow"><span>Hourly/Day Charge (<span id="r_hour_count">0</span> hrs @ ₹<span id="r_rate_per_hr">120</span>)</span><span>₹ <span id="r_hour_charge">0.00</span></span></div>
-  <div class="frow"><span>Night Charge</span><span>₹ <span id="r_night">0.00</span></span></div>
-  <div class="frow"><span>Toll Tax</span><span>₹ <span id="r_toll">0.00</span></span></div>
-  <div class="frow"><span>Parking Charge</span><span>₹ <span id="r_parking">0.00</span></span></div>
-  <div class="frow"><span>Discount</span><span>- ₹ <span id="r_discount">0.00</span></span></div>
+  <div class="frow"><span>Distance (KM)</span><span>Km : <span id="r_km">60</span></span></div>
+  <div class="frow"><span>Base fare</span><span>₹ : <span id="r_base">0.00</span></span></div>
+  <div class="frow"><span>Per KM charge</span><span>₹ : <span id="r_rate">14.00</span></span></div>
+  <div class="frow"><span>Trip charges</span><span>₹ : <span id="r_trip_charge">840.00</span></span></div>
+  <div class="frow"><span>Day charges ( Hrs)</span><span>₹ : <span id="r_day_charge">0.00</span></span></div>
+  <div class="frow"><span>Night charges</span><span>₹ : <span id="r_night">0.00</span></span></div>
+  <div class="frow"><span>Toll tax</span><span>₹ : <span id="r_toll">0.00</span></span></div>
+  <div class="frow"><span>Parking charges</span><span>₹ : <span id="r_parking">0.00</span></span></div>
+  <div class="frow"><span>Discount</span><span>₹ : <span id="r_discount">0.00</span></span></div>
 </div>
 
-<div class="pay">
-  Payment Mode: <span id="r_payment">Cash</span>
+<div class="pay drow">
+  <span>Payment type</span>
+  <span id="r_payment">Cash</span>
 </div>
 
 <div class="total">
-  <span>NET TOTAL PAYABLE:</span>
-  <span>₹ <span id="r_total">0.00</span></span>
+  <span>Total Amount</span>
+  <span>₹ : <span id="r_total">840.00</span></span>
 </div>
 
+<div class="note">Note : Thank you for ride</div>
+
 <div class="footer">
-  <div class="qrbox" id="r_qr">QR CODE</div>
+  <div class="qrbox" id="r_qr">
+    <span>PAYMENT<br>QR<br>₹<span id="r_qr_amount">840.00</span></span>
+  </div>
   <div class="sig">
-    <div id="r_sig_img"></div>
+    <div id="r_sig_img">
+      <svg width="140" height="42" viewBox="0 0 140 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 32C25 10 40 5 45 28C50 40 55 12 65 30C75 25 85 18 100 28C115 35 125 15 135 25" stroke="#153b5b" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
     <div class="sigline"></div>
-    <span>Authorised Signatory</span>
+    <span>Authorized signature</span>
   </div>
 </div>
 
 <div class="terms">
-  * This is a computer generated receipt. Thank you for riding with us!
+  Terms and Conditions:
 </div>
 </div>
 
 </div>
 
 <script>
+// Format date display
+function formatDateStr(dStr) {
+  if (!dStr) return '';
+  const d = new Date(dStr);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function formatDateTimeStr(dtStr) {
+  if (!dtStr) return '-';
+  const d = new Date(dtStr);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  let hours = d.getHours();
+  const minutes = d.getMinutes().toString().padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} ${hours}:${minutes} ${ampm}`;
+}
+
 document.getElementById('date').valueAsDate = new Date();
 
 function calculateAuto() {
@@ -214,15 +256,15 @@ function calculateAuto() {
   const toVal = document.getElementById('to').value;
   
   let hours = 0;
-  if(fromVal && toVal) {
+  if (fromVal && toVal) {
     const fromDate = new Date(fromVal);
     const toDate = new Date(toVal);
     const diffMs = toDate - fromDate;
-    if(diffMs > 0) {
+    if (diffMs > 0) {
       hours = (diffMs / (1000 * 60 * 60));
     }
   }
-  document.getElementById('totalHours').value = hours.toFixed(2) + ' hrs';
+  document.getElementById('totalHours').value = hours.toFixed(2);
   
   const km = parseFloat(document.getElementById('km').value) || 0;
   const rate = parseFloat(document.getElementById('rate').value) || 0;
@@ -233,18 +275,21 @@ function calculateAuto() {
   const parking = parseFloat(document.getElementById('parking').value) || 0;
   const discount = parseFloat(document.getElementById('discount').value) || 0;
 
-  const kmCharge = km * rate;
-  const hourCharge = hours * hourRate;
-  let total = (base + kmCharge + hourCharge + night + toll + parking) - discount;
-  if(total < 0) total = 0;
+  const tripCharge = km * rate;
+  const dayCharge = hours * hourRate;
+  let total = (base + tripCharge + dayCharge + night + toll + parking) - discount;
+  if (total < 0) total = 0;
 
   document.getElementById('liveTotal').innerText = total.toFixed(2);
-  return { hours, km, rate, hourRate, base, night, toll, parking, discount, kmCharge, hourCharge, total };
+  return { hours, km, rate, hourRate, base, night, toll, parking, discount, tripCharge, dayCharge, total };
 }
 
 const inputs = ['from', 'to', 'km', 'rate', 'hourRate', 'base', 'night', 'toll', 'parking', 'discount'];
 inputs.forEach(id => {
-  document.getElementById(id).addEventListener('input', calculateAuto);
+  document.getElementById(id).addEventListener('input', () => {
+    calculateAuto();
+    updateReceipt();
+  });
 });
 
 function updateReceipt() {
@@ -254,32 +299,28 @@ function updateReceipt() {
   document.getElementById('r_address').innerText = document.getElementById('headerAddress').value;
   document.getElementById('r_phone').innerText = document.getElementById('headerPhone').value;
   document.getElementById('r_email').innerText = document.getElementById('headerEmail').value;
+  document.getElementById('r_pin').innerText = document.getElementById('headerPin').value;
   document.getElementById('r_invoice').innerText = document.getElementById('invoice').value;
-  document.getElementById('r_date').innerText = document.getElementById('date').value;
+  document.getElementById('r_date').innerText = formatDateStr(document.getElementById('date').value) || '20 Aug 2026';
   document.getElementById('r_payment').innerText = document.getElementById('payment').value;
 
-  const fromVal = document.getElementById('from').value;
-  const toVal = document.getElementById('to').value;
-  document.getElementById('r_from').innerText = fromVal ? fromVal.replace('T', ' ') : '-';
-  document.getElementById('r_to').innerText = toVal ? toVal.replace('T', ' ') : '-';
+  document.getElementById('r_from').innerText = formatDateTimeStr(document.getElementById('from').value);
+  document.getElementById('r_to').innerText = formatDateTimeStr(document.getElementById('to').value);
 
-  document.getElementById('r_hours').innerText = c.hours.toFixed(2) + ' hrs';
-  document.getElementById('r_km').innerText = c.km.toFixed(1) + ' KM';
+  document.getElementById('r_hours').innerText = c.hours.toFixed(2);
+  document.getElementById('r_km').innerText = c.km;
   
   document.getElementById('r_base').innerText = c.base.toFixed(2);
-  document.getElementById('r_km_count').innerText = c.km;
-  document.getElementById('r_rate_per_km').innerText = c.rate;
-  document.getElementById('r_km_charge').innerText = c.kmCharge.toFixed(2);
-
-  document.getElementById('r_hour_count').innerText = c.hours.toFixed(2);
-  document.getElementById('r_rate_per_hr').innerText = c.hourRate;
-  document.getElementById('r_hour_charge').innerText = c.hourCharge.toFixed(2);
+  document.getElementById('r_rate').innerText = c.rate.toFixed(2);
+  document.getElementById('r_trip_charge').innerText = c.tripCharge.toFixed(2);
+  document.getElementById('r_day_charge').innerText = c.dayCharge.toFixed(2);
 
   document.getElementById('r_night').innerText = c.night.toFixed(2);
   document.getElementById('r_toll').innerText = c.toll.toFixed(2);
   document.getElementById('r_parking').innerText = c.parking.toFixed(2);
   document.getElementById('r_discount').innerText = c.discount.toFixed(2);
   document.getElementById('r_total').innerText = c.total.toFixed(2);
+  document.getElementById('r_qr_amount').innerText = c.total.toFixed(2);
 }
 
 document.getElementById('generate').addEventListener('click', updateReceipt);
@@ -310,8 +351,10 @@ document.getElementById('sigUpload').addEventListener('change', function(e) {
   }
 });
 
+// Run initial
 calculateAuto();
 updateReceipt();
 </script>
 </body>
 </html>
+
