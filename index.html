@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="theme-color" content="#1769c2"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Online Mini Cab Service</title>
+
+<!-- Libraries for direct PDF and Image Download -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#eef1f4;font-family:Arial,sans-serif}
@@ -15,10 +20,18 @@ h2{text-align:center;margin:5px 0 12px}
 label{font-size:12px;font-weight:bold;display:block;margin:7px 0 3px}
 input,select,textarea{width:100%;padding:9px;border:1px solid #bbb;border-radius:6px;font-size:14px}
 textarea{min-height:55px}
-button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-height:70px;padding:14px 18px;font-size:22px;line-height:1.15;cursor:pointer}
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-.generate{background:#216fc1;color:#fff}.print{background:#e7eff8;color:#164f7d}
-@media(max-width:700px){button{font-size:18px;min-height:55px}.action-grid{gap:10px}.grid-3{grid-template-columns:1fr}}
+button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-height:50px;padding:10px 14px;font-size:16px;line-height:1.15;cursor:pointer}
+.action-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:10px;margin-top:14px}
+.generate{background:#216fc1;color:#fff}
+.print{background:#e7eff8;color:#164f7d}
+.pdf-btn{background:#d9534f;color:#fff}
+.img-btn{background:#28a745;color:#fff}
+
+@media(max-width:700px){
+  .action-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .grid-3{grid-template-columns:1fr}
+  button{font-size:15px;min-height:45px}
+}
 .live{margin-top:12px;background:#e9f8e9;border:2px solid #8bc48b;border-radius:8px;text-align:center;padding:12px;font-size:24px;font-weight:bold;color:#123957}
 
 .receipt{border:2px solid #222;background:#fff;color:#163b5a}
@@ -172,8 +185,10 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 <div class="live">TOTAL AMOUNT: ₹ <span id="liveTotal">0.00</span></div>
 
 <div class="action-grid">
-<button type="button" class="generate" id="generate">Generate Receipt</button>
-<button type="button" class="print" id="printPdf">Print / Save PDF</button>
+<button type="button" class="generate" id="generate">Generate</button>
+<button type="button" class="print" id="printBtn">Print</button>
+<button type="button" class="pdf-btn" id="savePdf">Save PDF</button>
+<button type="button" class="img-btn" id="saveImg">Save Image</button>
 </div>
 </div>
 
@@ -389,13 +404,49 @@ function updateReceipt() {
   }
 }
 
+// Button Handlers
 document.getElementById('generate').addEventListener('click', updateReceipt);
-document.getElementById('printPdf').addEventListener('click', () => {
+
+// 1. Direct Print
+document.getElementById('printBtn').addEventListener('click', () => {
   updateReceipt();
   window.print();
 });
 
-// Logo Upload Handler
+// 2. Direct PDF Save
+document.getElementById('savePdf').addEventListener('click', () => {
+  updateReceipt();
+  const receipt = document.getElementById('receipt');
+  const invNo = document.getElementById('invoice').value || 'bill';
+  
+  html2canvas(receipt, { scale: 2, useCORS: true }).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`Invoice_${invNo}.pdf`);
+  });
+});
+
+// 3. Direct Image (PNG) Save
+document.getElementById('saveImg').addEventListener('click', () => {
+  updateReceipt();
+  const receipt = document.getElementById('receipt');
+  const invNo = document.getElementById('invoice').value || 'bill';
+  
+  html2canvas(receipt, { scale: 2, useCORS: true }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = `Invoice_${invNo}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+});
+
+// File Upload Handlers
 document.getElementById('logoUpload').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (file) {
@@ -407,7 +458,6 @@ document.getElementById('logoUpload').addEventListener('change', function(e) {
   }
 });
 
-// QR Upload Handler
 document.getElementById('qrUpload').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (file) {
@@ -419,7 +469,6 @@ document.getElementById('qrUpload').addEventListener('change', function(e) {
   }
 });
 
-// Signature Upload Handler
 document.getElementById('sigUpload').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (file) {
@@ -436,4 +485,3 @@ updateReceipt();
 </script>
 </body>
 </html>
-
