@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Online Mini Cab Service</title>
 
-<!-- Libraries for PDF and Image Download -->
+<!-- Libraries for direct PDF and Image Download -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -37,7 +37,7 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 }
 .live{margin-top:12px;background:#e9f8e9;border:2px solid #8bc48b;border-radius:8px;text-align:center;padding:12px;font-size:24px;font-weight:bold;color:#123957}
 
-.receipt{border:2px solid #222;background:#fff;color:#163b5a}
+.receipt{border:2px solid #222;background:#fff;color:#163b5a;max-width:480px;margin:auto}
 .head{
   display:grid;
   grid-template-columns:42% 58%;
@@ -69,20 +69,20 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
   justify-content:space-between;
   align-items:center;
   gap:10px;
-  font-size:16px;
+  font-size:15px;
   line-height:1.15;
   font-weight:700;
   color:#123957;
 }
 .service{
-  font-size:20px;
+  font-size:17px;
   color:#123e61;
   font-weight:900;
   font-style:italic;
   margin:8px 0 6px;
   white-space:nowrap;
   line-height:1;
-  letter-spacing:.5px;
+  letter-spacing:.3px;
   text-align:right;
 }
 .meta{
@@ -105,6 +105,16 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 .drow span:last-child,.frow span:last-child{text-align:right;font-weight:bold}
 .fares{font-size:13px;border-bottom:1px solid #222;line-height:1.2}
 .frow{border-bottom:1px dotted #777}
+
+/* Custom Highlight Rows for Per KM & Day Charges */
+.white-text-row{
+  background-color: #1769c2 !important;
+  color: #ffffff !important;
+}
+.white-text-row span{
+  color: #ffffff !important;
+}
+
 .pay{padding:6px 8px;border-bottom:1px solid #222;font-size:14px;font-weight:bold;display:flex;justify-content:space-between}
 .total{display:flex;justify-content:space-between;padding:8px 8px;font-size:22px;font-weight:bold;color:#0a4d78;border-bottom:1px solid #222}
 .note{padding:6px 8px;font-size:13px;font-weight:600}
@@ -160,14 +170,14 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 </div>
 
 <div class="grid-3">
-<div><label>Upload Logo</label><input id="logoUpload" type="file" accept="image/*"></div>
-<div><label>Payment QR Upload</label><input id="qrUpload" type="file" accept="image/*"></div>
-<div><label>Authority Signature</label><input id="sigUpload" type="file" accept="image/*"></div>
+<div><label>Upload Logo (Top Left)</label><input id="logoUpload" type="file" accept="image/*"></div>
+<div><label>Upload QR Code (Bottom Left)</label><input id="qrUpload" type="file" accept="image/*"></div>
+<div><label>Upload Signature (Bottom Right)</label><input id="sigUpload" type="file" accept="image/*"></div>
 </div>
 
 <div class="grid">
 <div><label>Invoice No.</label><input id="invoice" value="12"></div>
-<div><label>Bill Date (Auto / Custom)</label><input id="date" type="text"></div>
+<div><label>Bill Date (Auto / Custom)</label><input id="date" type="text" value="21 Aug 2026"></div>
 <div><label>Customer Name</label><input id="customer" value="" placeholder="Optional"></div>
 <div><label>Customer Number</label><input id="phone" value="" placeholder="Optional"></div>
 <div><label>Driver Name</label><input id="driver" value="" placeholder="Optional"></div>
@@ -182,20 +192,20 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 <input id="drop" value="" placeholder="Optional">
 
 <div class="grid" style="margin-top:8px">
-<div><label>From Date / Time</label><input id="from" type="datetime-local"></div>
-<div><label>To Date / Time</label><input id="to" type="datetime-local"></div>
-<div><label>Total Duration (Hrs - Auto)</label><input id="totalHours" type="text" value="0.00" readonly style="background:#eef;font-weight:bold"></div>
-<div><label>Distance (KM)</label><input id="km" type="number" min="0" step="0.1" value="0" placeholder="Enter KM"></div>
+<div><label>From Date / Time</label><input id="from" type="datetime-local" value="2026-08-21T08:50"></div>
+<div><label>To Date / Time</label><input id="to" type="datetime-local" value="2026-08-21T09:50"></div>
+<div><label>Total Duration (Hrs - Auto)</label><input id="totalHours" type="text" value="1.00" readonly style="background:#eef;font-weight:bold"></div>
+<div><label>Distance (KM)</label><input id="km" type="number" min="0" step="0.1" value="36" placeholder="Enter KM"></div>
 <div><label>Per KM Charge (₹)</label><input id="rate" type="number" min="0" step="0.01" value="14.00"></div>
 <div><label>Base Fare (₹)</label><input id="base" type="number" min="0" value="0.00"></div>
-<div><label>Day Charges / Hour (₹)</label><input id="hourRate" type="number" min="0" value="0.00"></div>
+<div><label>Day Charges / Hour (₹)</label><input id="hourRate" type="number" min="0" value="120.00"></div>
 <div><label>Night Charges (₹)</label><input id="night" type="number" min="0" value="0.00"></div>
-<div><label>Toll Tax (₹)</label><input id="toll" type="number" min="0" value="0.00"></div>
+<div><label>Toll Tax (₹)</label><input id="toll" type="number" min="0" value="40.00"></div>
 <div><label>Parking Charges (₹)</label><input id="parking" type="number" min="0" value="0.00"></div>
 <div><label>Discount (₹)</label><input id="discount" type="number" min="0" value="0.00"></div>
 </div>
 
-<div class="live">TOTAL AMOUNT: ₹ <span id="liveTotal">0.00</span></div>
+<div class="live">TOTAL AMOUNT: ₹ <span id="liveTotal">664.00</span></div>
 
 <div class="action-grid">
 <button type="button" class="generate" id="generate">Generate</button>
@@ -209,12 +219,12 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 <div class="receipt" id="receipt">
 <div class="head">
   <div class="head-logo" id="r_logo_container">
-    <div style="font-size:15px;font-weight:bold;color:#183f5f;border:1px dashed #347aa8;padding:10px;text-align:center;border-radius:4px">CAB LOGO</div>
+    <div style="font-size:14px;font-weight:bold;color:#183f5f;border:1px dashed #347aa8;padding:12px 6px;text-align:center;border-radius:4px">Upload Logo</div>
   </div>
   <div class="info">
     <div class="info-top">
       <span>Invoice No.: <span id="r_invoice">12</span></span>
-      <span>DATE : <span id="r_date"></span></span>
+      <span>DATE : <span id="r_date">21 Aug 2026</span></span>
     </div>
     <div class="service" id="r_service">MUNABHAI MINI CAB SERVICE</div>
     <div class="meta">
@@ -249,19 +259,19 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
   <div class="drow"><span>Driver Name :</span><span id="r_driver"></span></div>
   <div class="drow"><span>Vehicle Number :</span><span id="r_vehicle">OD 33AN1760</span></div>
   <div class="drow"><span>Vehicle type</span><span id="r_vtype">Wagner VXI</span></div>
-  <div class="drow"><span>From Date :</span><span id="r_from"></span></div>
-  <div class="drow"><span>To Date :</span><span id="r_to"></span></div>
-  <div class="drow"><span>Hrs</span><span id="r_hrs">0.00</span></div>
+  <div class="drow"><span>From Date :</span><span id="r_from">21 Aug 2026 8:50 AM</span></div>
+  <div class="drow"><span>To Date :</span><span id="r_to">21 Aug 2026 9:50 AM</span></div>
+  <div class="drow"><span>Hrs</span><span id="r_hrs">1.00</span></div>
 </div>
 
 <div class="fares">
-  <div class="frow"><span>Distance (KM)</span><span>Km : <span id="r_km">0</span></span></div>
+  <div class="frow"><span>Distance (KM)</span><span>Km : <span id="r_km">36</span></span></div>
   <div class="frow"><span>Base fare</span><span>₹ : <span id="r_base">0.00</span></span></div>
-  <div class="frow"><span>Per KM charge</span><span>₹ : <span id="r_rate">14.00</span></span></div>
-  <div class="frow"><span>Trip charges</span><span>₹ : <span id="r_trip">0.00</span></span></div>
-  <div class="frow"><span>Day charges ( Hrs)</span><span>₹ : <span id="r_day">0.00</span></span></div>
+  <div class="frow white-text-row"><span>Per KM charge</span><span>₹ : <span id="r_rate">14.00</span></span></div>
+  <div class="frow"><span>Trip charges</span><span>₹ : <span id="r_trip">504.00</span></span></div>
+  <div class="frow white-text-row"><span>Day charges ( Hrs)</span><span>₹ : <span id="r_day">120.00</span></span></div>
   <div class="frow"><span>Night charges</span><span>₹ : <span id="r_night">0.00</span></span></div>
-  <div class="frow"><span>Toll tax</span><span>₹ : <span id="r_toll">0.00</span></span></div>
+  <div class="frow"><span>Toll tax</span><span>₹ : <span id="r_toll">40.00</span></span></div>
   <div class="frow"><span>Parking charges</span><span>₹ : <span id="r_parking">0.00</span></span></div>
   <div class="frow"><span>Discount</span><span>₹ : <span id="r_discount">0.00</span></span></div>
 </div>
@@ -273,7 +283,7 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 
 <div class="total">
   <span>Total Amount</span>
-  <span>₹ : <span id="r_total">0.00</span></span>
+  <span>₹ : <span id="r_total">664.00</span></span>
 </div>
 
 <div class="note">
@@ -282,8 +292,7 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 
 <div class="footer">
   <div class="qrbox" id="r_qr">
-    <div>PAYMENT QR</div>
-    <div id="r_qr_amt" style="font-size:14px;margin-top:2px">₹0.00</div>
+    <div style="font-size:12px;text-align:center;padding:4px">Upload QR Code</div>
   </div>
   <div class="sig">
     <div id="r_sig_container" class="sig-content">
@@ -311,8 +320,6 @@ function getFormattedToday() {
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
-
-document.getElementById('date').value = getFormattedToday();
 
 function formatDateTime(dtStr) {
   if(!dtStr) return '';
@@ -409,11 +416,6 @@ function updateReceipt() {
   document.getElementById('r_parking').innerText = c.parking.toFixed(2);
   document.getElementById('r_discount').innerText = c.discount.toFixed(2);
   document.getElementById('r_total').innerText = c.total.toFixed(2);
-
-  const qrAmtEl = document.getElementById('r_qr_amt');
-  if(qrAmtEl) {
-    qrAmtEl.innerText = '₹' + c.total.toFixed(2);
-  }
 }
 
 // Button Handlers
@@ -489,7 +491,7 @@ document.getElementById('sigUpload').addEventListener('change', function(e) {
   }
 });
 
-// Run calculation and update preview on page load
+// Initialize on page load
 window.addEventListener('DOMContentLoaded', updateReceipt);
 </script>
 </body>
