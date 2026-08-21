@@ -157,9 +157,9 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 </div>
 
 <div class="grid-3">
-<div><label>Upload Logo (Photo)</label><input id="logoUpload" type="file" accept="image/*"></div>
-<div><label>Payment QR Upload</label><input id="qrUpload" type="file" accept="image/*"></div>
-<div><label>Authority Signature</label><input id="sigUpload" type="file" accept="image/*"></div>
+<div><label>Change Logo (Optional)</label><input id="logoUpload" type="file" accept="image/*"></div>
+<div><label>Change Payment QR (Optional)</label><input id="qrUpload" type="file" accept="image/*"></div>
+<div><label>Change Signature (Optional)</label><input id="sigUpload" type="file" accept="image/*"></div>
 </div>
 
 <div class="grid">
@@ -182,12 +182,12 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 <div><label>From Date / Time</label><input id="from" type="datetime-local"></div>
 <div><label>To Date / Time</label><input id="to" type="datetime-local"></div>
 <div><label>Total Duration (Hrs - Auto)</label><input id="totalHours" type="text" value="0.00" readonly style="background:#eef;font-weight:bold"></div>
-<div><label>Distance (KM)</label><input id="km" type="number" min="0" step="0.1" value="36" placeholder="Enter KM"></div>
+<div><label>Distance (KM)</label><input id="km" type="number" min="0" step="0.1" value="0" placeholder="Enter KM"></div>
 <div><label>Per KM Charge (₹ - Hidden)</label><input id="rate" type="number" min="0" step="0.01" value="14.00"></div>
 <div><label>Base Fare (₹)</label><input id="base" type="number" min="0" value="0.00"></div>
 <div><label>Day Charges / Hour (₹ - Hidden)</label><input id="hourRate" type="number" min="0" value="120.00"></div>
 <div><label>Night Charges (₹)</label><input id="night" type="number" min="0" value="0.00"></div>
-<div><label>Toll Tax (₹)</label><input id="toll" type="number" min="0" value="40.00"></div>
+<div><label>Toll Tax (₹)</label><input id="toll" type="number" min="0" value="0.00"></div>
 <div><label>Parking Charges (₹)</label><input id="parking" type="number" min="0" value="0.00"></div>
 <div><label>Discount (₹)</label><input id="discount" type="number" min="0" value="0.00"></div>
 </div>
@@ -206,7 +206,7 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 <div class="receipt" id="receipt">
 <div class="head">
   <div class="head-logo" id="r_logo_container">
-    <div style="font-size:14px;font-weight:bold;color:#183f5f;border:1px dashed #347aa8;padding:8px;text-align:center;border-radius:4px">CAB PHOTO / LOGO</div>
+    <img id="r_logo_img" src="1000212519.png" alt="Cab Photo / Logo">
   </div>
   <div class="info">
     <div class="info-top">
@@ -281,17 +281,11 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 
 <div class="footer">
   <div class="qrbox" id="r_qr">
-    <div>PAYMENT QR</div>
-    <div id="r_qr_amt" style="font-size:14px;margin-top:2px">₹0.00</div>
+    <img id="r_qr_img" src="1000211659.jpg" alt="Payment QR">
   </div>
   <div class="sig">
     <div id="r_sig_container" class="sig-content">
-      <div style="font-family:serif;font-size:18px;color:#333;margin-bottom:-4px;font-weight:bold">M</div>
-      <div style="font-size:11px;letter-spacing:.5px;color:#555;margin-bottom:2px">MUNABHAI MINI</div>
-      <svg width="170" height="42" viewBox="0 0 160 40">
-        <path d="M10,30 Q35,5 55,25 T95,15 T135,22 T155,10" fill="none" stroke="#153b5b" stroke-width="2.2"/>
-        <path d="M35,20 Q65,35 105,18" fill="none" stroke="#153b5b" stroke-width="1.5"/>
-      </svg>
+      <img id="r_sig_img" src="1000211609.png" alt="Authority Signature">
     </div>
     <span>Authorized signature</span>
   </div>
@@ -372,6 +366,26 @@ inputs.forEach(id => {
   }
 });
 
+// File Handlers for Manual Upload Override
+function setupImageUpload(inputId, imgId) {
+  const inputEl = document.getElementById(inputId);
+  if(inputEl) {
+    inputEl.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if(file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          document.getElementById(imgId).src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+}
+setupImageUpload('logoUpload', 'r_logo_img');
+setupImageUpload('qrUpload', 'r_qr_img');
+setupImageUpload('sigUpload', 'r_sig_img');
+
 function updateReceipt() {
   const c = calculateAll();
 
@@ -408,12 +422,10 @@ function updateReceipt() {
   document.getElementById('r_parking').innerText = c.parking.toFixed(2);
   document.getElementById('r_discount').innerText = c.discount.toFixed(2);
   document.getElementById('r_total').innerText = c.total.toFixed(2);
-
-  const qrAmtEl = document.getElementById('r_qr_amt');
-  if(qrAmtEl) {
-    qrAmtEl.innerText = '₹' + c.total.toFixed(2);
-  }
 }
+
+// Initial calculation call
+updateReceipt();
 
 // Button Handlers
 document.getElementById('generate').addEventListener('click', updateReceipt);
@@ -453,42 +465,6 @@ document.getElementById('saveImg').addEventListener('click', () => {
     link.click();
   });
 });
-
-// File Upload Handlers (Logo, QR, Signature)
-document.getElementById('logoUpload').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      document.getElementById('r_logo_container').innerHTML = `<img src="${evt.target.result}" style="width:100%;max-width:350px;max-height:160px;object-fit:contain;" alt="Cab Logo">`;
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
-document.getElementById('qrUpload').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      document.getElementById('r_qr').innerHTML = `<img src="${evt.target.result}" style="width:100%;height:100%;object-fit:contain;" alt="QR Code">`;
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
-document.getElementById('sigUpload').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      document.getElementById('r_sig_container').innerHTML = `<img src="${evt.target.result}" style="max-width:180px;max-height:80px;" alt="Signature">`;
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
-window.addEventListener('DOMContentLoaded', updateReceipt);
 </script>
 </body>
 </html>
