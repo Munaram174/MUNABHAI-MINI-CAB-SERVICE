@@ -104,11 +104,13 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 .pay{padding:6px 8px;border-bottom:1px solid #222;font-size:14px;font-weight:bold;display:flex;justify-content:space-between}
 .total{display:flex;justify-content:space-between;padding:8px 8px;font-size:22px;font-weight:bold;color:#0a4d78;border-bottom:1px solid #222}
 .note{padding:6px 8px;font-size:13px;font-weight:600}
-.footer{display:flex;justify-content:space-between;align-items:flex-end;padding:6px 12px 10px;gap:8px}
-.qrbox{width:115px;height:115px;border:2px solid #111;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#111;font-weight:bold;font-size:14px;line-height:1.2;padding:4px}
-.sig{width:220px;text-align:center;font-size:13px;font-weight:600}
-.sig img{max-width:200px!important;max-height:85px!important;display:block;margin:auto}
-.sig-content{transform:scale(1.3);transform-origin:bottom center;margin-bottom:8px}
+.footer{display:flex;justify-content:space-between;align-items:flex-end;padding:8px 14px 12px;gap:8px}
+.qrbox{width:115px;height:115px;border:2px solid #111;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#111;font-weight:bold;font-size:14px;line-height:1.2;padding:2px;overflow:hidden}
+.qrbox img{width:100%;height:100%;object-fit:contain}
+.sig{width:240px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.sig-container{min-height:75px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:2px;width:100%}
+.sig img{max-width:220px;max-height:85px;display:block;margin:auto;object-fit:contain}
+.sig-text{font-size:14px;font-weight:bold;color:#123957;border-top:1.5px solid #222;padding-top:4px;width:100%;display:block}
 .terms{border-top:1px solid #222;padding:4px 8px;font-size:11px}
 
 @media(max-width:700px){
@@ -123,7 +125,11 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
   .details,.fares,.pay{font-size:11px}
   .drow,.frow{padding:2px 4px}
   .total{font-size:18px;padding:6px 5px}
-  .footer{padding:6px}.sig{width:55%;font-size:11px}.sig img{max-width:160px!important;max-height:65px!important}.qrbox{width:95px;height:95px;font-size:11px}
+  .footer{padding:6px}
+  .sig{width:55%}
+  .sig img{max-width:160px;max-height:65px}
+  .sig-text{font-size:11px}
+  .qrbox{width:95px;height:95px;font-size:11px}
 }
 @media print{@page{size:A4 portrait;margin:7mm}body{background:white}.panel{display:none}.app{padding:0}}
 </style>
@@ -269,19 +275,21 @@ button{border:0;border-radius:24px;font-weight:bold;margin:0;width:100%;min-heig
 
 <div class="footer">
   <div class="qrbox" id="r_qr">
-    <div>PAYMENT QR</div>
+    <div style="padding:4px">PAYMENT QR</div>
     <div id="r_qr_amt" style="font-size:15px;margin-top:2px">₹0.00</div>
   </div>
   <div class="sig">
-    <div id="r_sig_container" class="sig-content">
-      <div style="font-family:serif;font-size:14px;color:#333;margin-bottom:-2px;font-weight:bold">M</div>
-      <div style="font-size:9px;letter-spacing:.5px;color:#555;margin-bottom:2px">MUNABHAI MINI</div>
-      <svg width="150" height="36" viewBox="0 0 160 40">
-        <path d="M10,30 Q35,5 55,25 T95,15 T135,22 T155,10" fill="none" stroke="#153b5b" stroke-width="2.2"/>
-        <path d="M35,20 Q65,35 105,18" fill="none" stroke="#153b5b" stroke-width="1.5"/>
-      </svg>
+    <div id="r_sig_container" class="sig-container">
+      <div style="text-align:center;">
+        <div style="font-family:serif;font-size:16px;color:#333;font-weight:bold;line-height:1">M</div>
+        <div style="font-size:10px;letter-spacing:.5px;color:#555;margin-bottom:2px">MUNABHAI MINI</div>
+        <svg width="150" height="36" viewBox="0 0 160 40">
+          <path d="M10,30 Q35,5 55,25 T95,15 T135,22 T155,10" fill="none" stroke="#153b5b" stroke-width="2.2"/>
+          <path d="M35,20 Q65,35 105,18" fill="none" stroke="#153b5b" stroke-width="1.5"/>
+        </svg>
+      </div>
     </div>
-    <span>Authorized signature</span>
+    <span class="sig-text">Authorized signature</span>
   </div>
 </div>
 
@@ -403,6 +411,40 @@ function updateReceipt() {
   }
 }
 
+// File Upload Handlers (Logo, QR, Signature)
+document.getElementById('logoUpload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      document.getElementById('r_logo_container').innerHTML = `<img src="${evt.target.result}" alt="Logo">`;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+document.getElementById('qrUpload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      document.getElementById('r_qr').innerHTML = `<img src="${evt.target.result}" alt="QR Code">`;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+document.getElementById('sigUpload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      document.getElementById('r_sig_container').innerHTML = `<img src="${evt.target.result}" alt="Signature">`;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
 // Button Handlers
 document.getElementById('generate').addEventListener('click', updateReceipt);
 
@@ -445,12 +487,8 @@ document.getElementById('saveImg').addEventListener('click', () => {
   });
 });
 
-// File Upload Handlers
-document.getElementById('logoUpload').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      document.getElementById('r_logo_container').innerHTML = `<img src="${evt.target.result}" alt="Logo">`;
-    };
-    reader
+// Initial Update
+updateReceipt();
+</script>
+</body>
+</html>
